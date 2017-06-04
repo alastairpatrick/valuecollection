@@ -15,6 +15,14 @@ describe("ValueSet", function() {
     expect(set1.size).to.equal(0);
   })
 
+  it("size is zero for set constructed with undefined iterable", function() {
+    expect(new ValueSet(undefined).size).to.equal(0);
+  })
+
+  it("size is zero for set constructed with null iterable", function() {
+    expect(new ValueSet(null).size).to.equal(0);
+  })
+
   it("size is one after adding value", function() {
     expect(set1.add("hello")).to.be.true;
     expect(set1.size).to.equal(1);
@@ -110,5 +118,24 @@ describe("ValueSet", function() {
       ["2", "2"],
       [{ foo: false }, { foo: false }],
     ]);
+  })
+
+  // Not in insertion order.
+  it("can iterate entries", function() {
+    set1.add(1);
+    set1.add("2");
+    set1.add({ foo: false });
+    let found = [];
+    for (let k of set1)
+      found.push(k);
+    expect(found.sort()).to.deep.equal([1, "2", { foo: false }]);
+  })
+
+  it("can construct from iterable of elements to add", function() {
+    let set = new ValueSet([1, 1, 2]);
+    expect(set.size).to.equal(2);
+    expect(set.has(1)).to.be.true;
+    expect(set.has(2)).to.be.true;
+    expect(set.has(3)).to.be.false;
   })
 })

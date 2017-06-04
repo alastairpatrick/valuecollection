@@ -11,8 +11,16 @@ const has = Object.prototype.hasOwnProperty;
  * By default, keys are considered equal using lodash's isEqual, which is deep equality.
  */
 class ValueMap {
-  constructor() {
+  /**
+   * Create a new ValueMap.
+   * @param {Iterable} [iterable] An iterable object whose elements are [key, value] pairs to add to the new ValueMap. If you don't specify this parameter, or its value is null, the new ValueMap is empty.
+   */
+  constructor(iterable) {
     this.clear();
+    if (iterable) {
+      for (let [k, v] of iterable)
+        this.set(k, v);
+    }
   }
 
   /**
@@ -98,7 +106,8 @@ class ValueMap {
   }
 
   /**
-   * The values() method returns a new Iterator object that contains the values for each element in the ValueMap object in insertion order.
+   * The values() method returns a new Iterator object that contains the values for each element in the ValueMap object.
+   * Note that the values are not returned in insertion order.
    * @returns {Iterator} A new ValueMap iterator object.
    */
   *values() {
@@ -109,7 +118,8 @@ class ValueMap {
   }
 
   /**
-   * The keys() method returns a new Iterator object that contains the keys for each element in the ValueMap object in insertion order.
+   * The keys() method returns a new Iterator object that contains the keys for each element in the ValueMap object.
+   * Note that the keys are not returned in insertion order.
    * @returns {Iterator} A new ValueMap iterator object.
    */
   *keys() {
@@ -120,7 +130,8 @@ class ValueMap {
   }
 
   /**
-   * The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the ValueMap object in insertion order.
+   * The entries() method returns a new Iterator object that contains the [key, value] pairs for each element in the ValueMap object.
+   * Note that the elements are not returned in insertion order.
    * @returns {Iterator} A new ValueMap iterator object.
    */
   *entries() {
@@ -141,6 +152,9 @@ class ValueMap {
 
 ValueMap.prototype.getHash = hash;
 ValueMap.prototype.isEqual = isEqual;
+
+if (Symbol && Symbol.iterator)
+  ValueMap.prototype[Symbol.iterator] = ValueMap.prototype.entries;
 
 module.exports = {
   ValueMap,
