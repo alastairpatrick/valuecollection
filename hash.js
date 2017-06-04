@@ -1,33 +1,7 @@
-# Raison d'être
+"use strict";
 
-Two classes of object are provided: ValueSet and ValueMap. They have similar interfaces to JavaScript's [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) and [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map). Key equality for predefined Set and Map objects is based on the "SameValueZero" algorithm, meaning objects are equal if they are the same object. In contrast, ValueSet and ValueMap allow equality of keys to be customized and by default key equality is based on lodash's isEqual function, meaning object equality has value rather than reference semantics.
+const has = Object.prototype.hasOwnProperty;
 
-This might be useful where object keys should be compared for equality property by property, for example if the keys are (X, Y) coordinates.
-
-# Example
-
-```js
-// Map doesn't do what we want.
-let map = new Map()
-map.set({x: 2, y: 3}, "Treasure")
-
-map.has({x: 2, y: 3})  // false
-map.get({x: 2, y: 3})  // undefined
-
-// ValueMap to the rescue!
-let map = new ValueMap()
-map.set({x: 2, y: 3}, "Treasure")
-
-map.has({x: 2, y: 3})  // true
-map.get({x: 2, y: 3})  // "Treasure"
-
-```
-
-# Infamy, JavaScript objects and hash functions
-
-JavaScript is well known for not enumerating its object properties in a consistent order. We would like to compute hash values for JavaScript objects, if possible in time linear in the number of keys, i.e. without sorting them. I'll leave the hash function to explain itself.
-
-```js
 const SEED = 5381;
 
 // Throughout this file, using (x | 0) to truncate x to a signed 32-bit integer in order to avoid floating point rounding issues.
@@ -63,4 +37,8 @@ const hash = (k) => {
   }
 }
 
-```
+
+module.exports = {
+  hashString,
+  hash,
+}

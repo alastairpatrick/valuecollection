@@ -1,0 +1,32 @@
+{
+  "name": "valuecollection",
+  "version": "1.0.0",
+  "description": "Map and set collections where keys have value semantics",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alastairpatrick/valuecollection.git"
+  },
+  "keywords": [
+    "hash",
+    "map",
+    "set",
+    "collection"
+  ],
+  "author": "Alastair Patrick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alastairpatrick/valuecollection/issues"
+  },
+  "homepage": "https://github.com/alastairpatrick/valuecollection#readme",
+  "devDependencies": {
+    "chai": "^4.0.1",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "lodash": ">=0.1.0"
+  }
+}
