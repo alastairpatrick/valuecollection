@@ -22,6 +22,8 @@ map.has({x: 2, y: 3})  // true
 map.get({x: 2, y: 3})  // "Treasure"
 ```
 
-## Hash function
+## Implementation
 
-ValueMap and ValueSet compute hash values for objects and their properties such that property enumeration order doesn't affect the hash value. This means the computed hash values do not depend on the property insertion order or other property ordering schemes. This is accomplished in time linear in the number of properties, i.e. without sorting the properties. See the comments relating to the hash function in the source code for details.
+ValueMap and ValueSet compute hash values for objects and their properties such that property enumeration order doesn't affect the hash value. This means the computed hash values do not depend on the property insertion order or other property ordering schemes. This is accomplished in time linear in the number of properties, i.e. without sorting the properties. See the comments relating to the hash function in the [source code](https://github.com/alastairpatrick/valuecollection/blob/master/hash.js) for details.
+
+In the underlying implementation, elements are stored in arrays that in turn are properties of a JavaScript object used as a hash table, where the property name is the hash value of the keys. Unlike JavaScript's Set and Map, element insertion order is _not_ retained. When enumerating the elements of a ValueSet or ValueMap, the enumeration order is _not_ defined.
