@@ -1,7 +1,7 @@
 {
   "name": "valuecollection",
-  "version": "1.0.0",
-  "description": "Map and set collections where keys have value semantics",
+  "version": "1.0.1",
+  "description": "Map and set collections with deep key equality",
   "main": "index.js",
   "scripts": {
     "test": "mocha **/*.spec.js"
@@ -11,6 +11,7 @@
     "url": "git+https://github.com/alastairpatrick/valuecollection.git"
   },
   "keywords": [
+    "deep",
     "hash",
     "map",
     "set",

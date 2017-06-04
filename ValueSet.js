@@ -6,17 +6,28 @@ const { hash } = require("./hash");
 
 const has = Object.prototype.hasOwnProperty;
 
-// Similar interface to JavaScript Set. Key equality is based on lodash isEqual by default.
+/**
+ * The ValueSet object lets you store unique values of any type, whether primitive values or object references.
+ * By default, elements are considered equal using lodash's isEqual, which is deep equality.
+ */
 class ValueSet {
   constructor() {
     this.clear();
   }
 
+  /**
+   * Returns the number of elements in a ValueSet object.
+   * @returns {number} The number of elements.
+   */
   get size() {
     return this.size_;
   }
 
-  // Does not return ValueSet object.
+  /**
+   * Appends a new element with a specified value to the end of a ValueSet object.
+   * @param {*} k The value of the element to add to the ValueSet object.
+   * @returns {boolean} Returns true if an element was appended to the ValueSet object or false if an element with the same key already existed.
+   */
   add(k) {
     let h = this.getHash(k);
     let b = this.hash[h];
@@ -30,6 +41,11 @@ class ValueSet {
     return true;
   }
 
+  /**
+   * Returns a boolean indicating whether an element with the specified value exists in a ValueSet object or not.
+   * @param {*} k The value to test for presence in the ValueSet object.
+   * @returns {boolean} Returns true if an element with the specified value exists in the ValueSet object; otherwise false.
+   */
   has(k) {
     let h = this.getHash(k);
     let b = this.hash[h];
@@ -39,6 +55,11 @@ class ValueSet {
     return ni >= 0;
   }
 
+  /**
+   * Returns a specified element from a ValueSet object.
+   * @param {*} k The value of the element to return from the ValueSet object.
+   * @returns {*} Returns the corresponding element or undefined if the element can't be found in the ValueSet object.
+   */
   get(k) {
     let h = this.getHash(k);
     let b = this.hash[h];
@@ -50,6 +71,11 @@ class ValueSet {
     return b[ni];
   }
 
+  /**
+   * Removes the specified element from a ValueSet object.
+   * @param {*} k The value of the element to remove from the ValueSet object.
+   * @returns {boolean} Returns true if an element in the ValueSet object has been removed successfully; otherwise false.
+   */
   delete(k) {
     let h = this.getHash(k);
     let b = this.hash[h];
@@ -65,6 +91,10 @@ class ValueSet {
     return true;
   }
 
+  /**
+   * The values() method returns a new Iterator object that contains the values for each element in the ValueSet object in insertion order.
+   * @returns {Iterator} A new Iterator object containing the values for each element in the given ValueSet, in insertion order.
+   */
   *values() {
     for (let h in this.hash) {
       for (let n of this.hash[h])
@@ -72,6 +102,10 @@ class ValueSet {
     }
   }
 
+  /**
+   * The entries() method returns a new Iterator object that contains an array of [value, value] for each element in the ValueSet object, in insertion order.
+   * @returns {Iterator} A new Iterator object that contains an array of [value, value] for each element in the given ValueSet, in insertion order.
+   */
   *entries() {
     for (let h in this.hash) {
       for (let n of this.hash[h])
@@ -79,6 +113,9 @@ class ValueSet {
     }
   }
 
+  /**
+   * The clear() method removes all elements from a ValueSet object.
+   */
   clear() {
     this.hash = Object.create(null);
     this.size_ = 0;
