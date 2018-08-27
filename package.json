@@ -1,6 +1,6 @@
 {
   "name": "valuecollection",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Map and set collections with deep key equality",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "lodash": ">=0.1.0"
+    "lodash.isequal": "^4.5.0"
   }
 }

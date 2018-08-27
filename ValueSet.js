@@ -1,6 +1,6 @@
 "use strict";
 
-const isEqual = require("lodash/isEqual");
+const isEqual = require("lodash.isequal");
 
 const { hash } = require("./hash");
 
@@ -137,7 +137,7 @@ ValueSet.prototype.isEqual = isEqual;
 
 if (Symbol && Symbol.iterator)
   ValueSet.prototype[Symbol.iterator] = ValueSet.prototype.values;
-  
+
 module.exports = {
   ValueSet,
 }

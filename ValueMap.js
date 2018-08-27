@@ -1,6 +1,6 @@
 "use strict";
 
-const isEqual = require("lodash/isEqual");
+const isEqual = require("lodash.isequal");
 
 const { hash } = require("./hash");
 
