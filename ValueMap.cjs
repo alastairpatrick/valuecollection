@@ -2,7 +2,7 @@
 
 const isEqual = require("lodash.isequal");
 
-const { hash } = require("./hash");
+const { hash } = require("./hash.cjs");
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -10,12 +10,15 @@ const has = Object.prototype.hasOwnProperty;
  * The ValueMap object holds key-value pairs. Any value (both objects and primitive values) may be used as either a key or a value.
  * By default, keys are considered equal using lodash's isEqual, which is deep equality.
  */
-class ValueMap {
+class ValueMap extends Map {
+  static name = 'ValueMap';
+
   /**
    * Create a new ValueMap.
    * @param {Iterable} [iterable] An iterable object whose elements are [key, value] pairs to add to the new ValueMap. If you don't specify this parameter, or its value is null, the new ValueMap is empty.
    */
   constructor(iterable) {
+    super();
     this.clear();
     if (iterable) {
       for (let [k, v] of iterable)
@@ -142,11 +145,27 @@ class ValueMap {
   }
 
   /**
+   * The forEach() method invokes a function with three parameters: value, key, and the valueMap itself.
+   * Note that the elements are not itterated in insertion order.
+   * @returns {Iterator} A new ValueMap iterator object.
+   */
+  forEach(func) {
+    for (let h in this.hash) {
+      for (let n of this.hash[h])
+        func(n.value, n.key, this);
+    }
+  }
+
+  /**
    * The clear() method removes all elements from a ValueMap object.
    */
   clear() {
     this.hash = Object.create(null);
     this.size_ = 0;
+  }
+
+  toJSON() {
+    return JSON.stringify([...this]);
   }
 }
 
@@ -156,6 +175,4 @@ ValueMap.prototype.isEqual = isEqual;
 if (Symbol && Symbol.iterator)
   ValueMap.prototype[Symbol.iterator] = ValueMap.prototype.entries;
 
-module.exports = {
-  ValueMap,
-}
+module.exports = { ValueMap };

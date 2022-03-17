@@ -1,8 +1,13 @@
 {
   "name": "valuecollection",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Map and set collections with deep key equality",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.esm.js",
+  "exports": {
+    "requires": "./index.cjs",
+    "import": "./index.esm.js"
+  },
   "scripts": {
     "test": "mocha **/*.spec.js"
   },

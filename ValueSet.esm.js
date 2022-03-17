@@ -1,8 +1,8 @@
 "use strict";
 
-const isEqual = require("lodash.isequal");
+import isEqual from "lodash.isEqual";
 
-const { hash } = require("./hash");
+import { hash } from "./hash.esm.js";
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -10,12 +10,15 @@ const has = Object.prototype.hasOwnProperty;
  * The ValueSet object lets you store unique values of any type, whether primitive values or object references.
  * By default, elements are considered equal using lodash's isEqual, which is deep equality.
  */
-class ValueSet {
+class ValueSet extends Set {
+  static name = 'ValueSet';
+
   /**
    * Create a new ValueSet.
    * @param {Iterable} [iterable] If an iterable object is passed, all of its elements will be added to the new ValueSet. If you don't specify this parameter, or its value is null, the new ValueSet is empty.
    */
   constructor(iterable) {
+    super();
     this.clear();
     if (iterable) {
       for (let k of iterable)
@@ -124,11 +127,27 @@ class ValueSet {
   }
 
   /**
+   * The forEach() method invokes a function with three parameters: value, key, and the valueMap itself.
+   * Note that the elements are not itterated in insertion order.
+   * @returns {Iterator} A new ValueMap iterator object.
+   */
+  forEach(func) {
+    for (let h in this.hash) {
+      for (let n of this.hash[h])
+        func(n.value, n.key, this);
+    }
+  }
+
+  /**
    * The clear() method removes all elements from a ValueSet object.
    */
   clear() {
     this.hash = Object.create(null);
     this.size_ = 0;
+  }
+
+  toJSON() {
+    return JSON.stringify([...this]);
   }
 }
 
@@ -138,6 +157,4 @@ ValueSet.prototype.isEqual = isEqual;
 if (Symbol && Symbol.iterator)
   ValueSet.prototype[Symbol.iterator] = ValueSet.prototype.values;
 
-module.exports = {
-  ValueSet,
-}
+export { ValueSet };
